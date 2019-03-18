@@ -56,13 +56,30 @@ def matchup(blue: Agent, red: Agent) -> Outcome:
     return Outcome.draw
 
 
-def _run_agents(*agents: Agent) -> None:
+def _run_agents(**agents: Agent) -> None:
     """Run multiple agents, and print a leaderboard and list of shame."""
     assert len(agents) >= 2, "Too few agents for a tournament!"
     results = defaultdict(lambda: defaultdict(int))
-    for blue, red in itertools.permutations(agents, 2):
-        results[matchup(blue, red)][blue] += 1
-    print(dict(results))
+    for (bname, blue), (rname, red) in itertools.permutations(agents.items(), 2):
+        # Play each pair multiple times, but only print the last.
+        for _ in range(100):
+            outcome = matchup(blue, red)
+            results[bname][outcome] += 1
+
+    # Print summary table.
+    print()
+    print("  win  draw  loss   name")
+    print("  ----------------------")
+    msg = "{:>5} {:>5} {:>5}   {}"
+    invalid = []
+    for bname, v in sorted(results.items(), key=lambda r: -r[1][Outcome.win]):
+        if v[Outcome.invalid] > 0:
+            invalid.append(bname)
+            continue
+        print(msg.format(v[Outcome.win], v[Outcome.draw], v[Outcome.loss], bname))
+    if invalid:
+        print()
+        print("Disqualified agents: " + ", ".join(invalid))
     return results
 
 
@@ -70,5 +87,12 @@ if __name__ == "__main__":
 
     from agents.chance import agent as chance
     from agents._template import agent as first
+    from agents.one_optimal import agent as best
 
-    _run_agents(first, chance)
+    _run_agents(
+        first=first,
+        chance=chance,
+        best=best,
+        nothing=lambda board: board,  # doesn't make a move
+        invalid=lambda board: board.replace(".", "X"),  # makes too many moves
+    )
