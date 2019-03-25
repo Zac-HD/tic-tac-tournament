@@ -79,15 +79,17 @@ def _run_agents(**agents: Agent) -> None:
 
     # Print summary table.
     print()
-    print("  win  draw  loss   name")
+    print("  loss  win   draw   name")
     print("  ----------------------")
     msg = "{:>5} {:>5} {:>5}   {}"
     invalid = []
-    for bname, v in sorted(results.items(), key=lambda r: -r[1][Outcome.win]):
+    for bname, v in sorted(
+        results.items(), key=lambda r: (r[1][Outcome.loss], -r[1][Outcome.win])
+    ):
         if v[Outcome.invalid] > 0:
             invalid.append(bname)
             continue
-        print(msg.format(v[Outcome.win], v[Outcome.draw], v[Outcome.loss], bname))
+        print(msg.format(v[Outcome.loss], v[Outcome.win], v[Outcome.draw], bname))
     if invalid:
         print()
         print("Disqualified agents: " + ", ".join(invalid))
