@@ -1,6 +1,5 @@
 import random
 
-AUTHOR = "Easy Win"
 
 # Groups of three spaces where an agent wins if they have played in
 # all three spaces.  Three rows, three columns, two diagonals.

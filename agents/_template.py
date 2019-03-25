@@ -1,11 +1,6 @@
 """
 A template for developing tic-tac-toe agents.
-
-You copy must include an `AUTHOR` constant naming the human who should be
-credited if this agent wins, and an `agent` function like the one below.
 """
-
-AUTHOR = "Zac Hatfield-Dodds"
 
 
 def agent(board: str) -> str:

@@ -1,10 +1,14 @@
 """
 The engine code for the whole thing.
+
+Note:
+    You do not need to (and are not expected to) understand
+    the code in this file.  Just write an agent function,
+    and add it to the list at the bottom.
 """
 
 from collections import defaultdict
 import enum
-import itertools
 import random
 from typing import Callable
 
@@ -13,14 +17,18 @@ Agent = Callable[[str], str]
 
 # Groups of three spaces where an agent wins if they have played in
 # all three spaces.  Three rows, three columns, two diagonals.
+# Here's the board:
+#       0 1 2
+#       3 4 5
+#       6 7 8
 WINS = (
-    (0, 1, 2),
+    (0, 1, 2),  # three rows
     (3, 4, 5),
     (6, 7, 8),
-    (0, 3, 6),
+    (0, 3, 6),  # three columns
     (1, 4, 7),
     (2, 5, 8),
-    (0, 4, 8),
+    (0, 4, 8),  # two diagonals
     (2, 4, 6),
 )
 
@@ -60,11 +68,14 @@ def _run_agents(**agents: Agent) -> None:
     """Run multiple agents, and print a leaderboard and list of shame."""
     assert len(agents) >= 2, "Too few agents for a tournament!"
     results = defaultdict(lambda: defaultdict(int))
-    for (bname, blue), (rname, red) in itertools.permutations(agents.items(), 2):
-        # Play each pair multiple times, but only print the last.
-        for _ in range(100):
-            outcome = matchup(blue, red)
-            results[bname][outcome] += 1
+    for bname, blue in agents.items():
+        for rname, red in agents.items():
+            if bname == rname:
+                continue
+            # Play each pair multiple times, but only print the last.
+            for _ in range(100):
+                outcome = matchup(blue, red)
+                results[bname][outcome] += 1
 
     # Print summary table.
     print()
@@ -83,16 +94,15 @@ def _run_agents(**agents: Agent) -> None:
     return results
 
 
-if __name__ == "__main__":
+# TODO: add your agent (or agents) here, with a sensible name.
+from agents.chance import agent as chance
+from agents._template import agent as first
+from agents.one_optimal import agent as best
 
-    from agents.chance import agent as chance
-    from agents._template import agent as first
-    from agents.one_optimal import agent as best
-
-    _run_agents(
-        first=first,
-        chance=chance,
-        best=best,
-        nothing=lambda board: board,  # doesn't make a move
-        invalid=lambda board: board.replace(".", "X"),  # makes too many moves
-    )
+_run_agents(
+    first=first,
+    chance=chance,
+    best=best,
+    nothing=lambda board: board,  # doesn't make a move
+    invalid=lambda board: board.replace(".", "X"),  # makes too many moves
+)
