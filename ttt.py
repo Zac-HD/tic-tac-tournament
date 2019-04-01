@@ -7,10 +7,8 @@ Note:
     and add it to the list at the bottom.
 """
 
-from collections import defaultdict
 import enum
-import random
-from typing import Callable
+from typing import Callable, Dict
 
 
 Agent = Callable[[str], str]
@@ -34,6 +32,12 @@ WINS = (
 
 
 class Outcome(enum.Enum):
+    """Represents the possible outcomes of a match.
+
+    I use an enum here to get features like type-checking and tab completion.
+    In small scripts, using strings ("win", "loss", etc.) would also work.
+    """
+
     win = enum.auto()
     draw = enum.auto()
     loss = enum.auto()
@@ -46,7 +50,7 @@ def matchup(blue: Agent, red: Agent) -> Outcome:
     board = 9 * "."
     for agent in [blue, red, blue, red, blue, red, blue, red, blue]:
         # Prepare board and get move
-        board = "".join(dict(X="O", O="X").get(c, c) for c in board)
+        board = "".join({"X": "O", "O": "X", ".": "."}[c] for c in board)
         out = agent(board)
         # Handle broken agents or illegal moves
         if not (
@@ -66,13 +70,11 @@ def matchup(blue: Agent, red: Agent) -> Outcome:
 
 def _run_agents(**agents: Agent) -> None:
     """Run multiple agents, and print a leaderboard and list of shame."""
-    assert len(agents) >= 2, "Too few agents for a tournament!"
-    results = defaultdict(lambda: defaultdict(int))
+    # Run a tournament where every agent plays against every other agent.
+    results: Dict[str, Dict[Outcome, int]] = dict()
     for bname, blue in agents.items():
+        results[bname] = {oc: 0 for oc in Outcome}
         for rname, red in agents.items():
-            if bname == rname:
-                continue
-            # Play each pair multiple times, but only print the last.
             for _ in range(100):
                 outcome = matchup(blue, red)
                 results[bname][outcome] += 1
@@ -93,18 +95,54 @@ def _run_agents(**agents: Agent) -> None:
     if invalid:
         print()
         print("Disqualified agents: " + ", ".join(invalid))
-    return results
 
+
+from agents._template import agent as example_first
+from agents.example import random_move, win_next_move_else_random
 
 # TODO: add your agent (or agents) here, with a sensible name.
-from agents.chance import agent as chance
-from agents._template import agent as first
-from agents.one_optimal import agent as best
+# To avoid merge conflicts, put the imports and function arguments
+# below the comment with your name.
+
+# Alison
+# Brenda
+# Charlotte
+# Danny
+# Felicity
+# Glen
+# Hrishi
+# Kathy
+# Matthew
+# Meghan
+# Olivia
+# Peter
+# Sam
+# Stephen
+# Tom
+# Zaiga
 
 _run_agents(
-    first=first,
-    chance=chance,
-    best=best,
-    nothing=lambda board: board,  # doesn't make a move
-    invalid=lambda board: board.replace(".", "X"),  # makes too many moves
+    # Example agents
+    first_valid_move=example_first,
+    random_move=random_move,
+    no_move=lambda board: board,  # doesn't make a move
+    all_moves=lambda board: board.replace(".", "X"),  # makes too many moves
+    # Zac
+    zac_example=win_next_move_else_random,
+    # Alison
+    # Brenda
+    # Charlotte
+    # Danny
+    # Felicity
+    # Glen
+    # Hrishi
+    # Kathy
+    # Matthew
+    # Meghan
+    # Olivia
+    # Peter
+    # Sam
+    # Stephen
+    # Tom
+    # Zaiga
 )
