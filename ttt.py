@@ -121,6 +121,8 @@ from agents.example import random_move, win_next_move_else_random
 # Felicity
 # Glen
 # Hrishi
+from agents.hrishi import Hrishi_move
+
 # Kathy
 # Matthew
 # Meghan
@@ -146,6 +148,7 @@ _run_agents(
     # Felicity
     # Glen
     # Hrishi
+    hrishi=Hrishi_move,
     # Kathy
     # Matthew
     # Meghan
