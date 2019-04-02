@@ -133,6 +133,7 @@ from agents.hrishi import Hrishi_move
 from agents.mp_agent import agent_mp as majp
 from agents.mp_agent import agent_g1 as mpg1
 from agents.mp_agent import agent_c1 as mpc1
+
 # Meghan
 # Olivia
 # Peter
@@ -162,9 +163,9 @@ _run_agents(
     hrishi=Hrishi_move,
     # Kathy
     # Matthew
-    matthew = majp,
-    matthew_g1 = mpg1,
-    matthew_c1 = mpc1,
+    matthew=majp,
+    matthew_g1=mpg1,
+    matthew_c1=mpc1,
     # Meghan
     # Olivia
     # Peter

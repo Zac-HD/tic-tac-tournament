@@ -48,7 +48,6 @@ C. Suggested AI algorithm:
 PMM
 """
 
-import collections
 import random
 
 WINS = (
@@ -145,4 +144,3 @@ def cayla_strategy(board: str) -> str:
 
     # Finally, make a random move if not specified.
     return random.choice(possible_moves)
-
