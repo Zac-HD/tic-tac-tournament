@@ -82,7 +82,10 @@ def matchup(blue: Agent, red: Agent) -> Outcome:
 
 
 def _run_agents(**agents: Agent) -> None:
-    """Run multiple agents, and print a leaderboard."""
+    """Run multiple agents, and print a leaderboard.
+       There is no shame in having a go and not winning.
+       Yes, I read the docstrings ;-)
+    """
     # Run a tournament where every agent plays against every other agent.
     results = {name: {oc: 0 for oc in Outcome} for name in agents}
     for bname, blue in agents.items():

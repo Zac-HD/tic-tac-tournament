@@ -26,7 +26,7 @@ typing `python ttt.py` in a terminal to run a tournament.
 
 ### Optional extension
 
-If you agent never loses (congratulations!), our optional extension
+If your agent never loses (congratulations!), our optional extension
 this week is about code style.
 
 Try installing the [Black](https://black.readthedocs.io/) formatter
