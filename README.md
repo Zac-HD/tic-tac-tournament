@@ -8,7 +8,7 @@ There are two parts to this:
 - The core engine in `ttt.py`, which runs agents against each other.
   This also acts as an automatic test suite - just enter your agent!
 - Three example agents which demonstrate how to make a valid move,
-  and some simple-if-suboptimal stratgies.
+  and some simple-if-suboptimal strategies.
 
 Let the games begin!
 
@@ -26,7 +26,7 @@ typing `python ttt.py` in a terminal to run a tournament.
 
 ### Optional extension
 
-If you agent never loses (congratulations!), our optional extension
+If your agent never loses (congratulations!), our optional extension
 this week is about code style.
 
 Try installing the [Black](https://black.readthedocs.io/) formatter
