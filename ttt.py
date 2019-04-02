@@ -8,7 +8,7 @@ Note:
 """
 
 import enum
-from typing import Callable, Dict
+from typing import Callable
 
 
 Agent = Callable[[str], str]
