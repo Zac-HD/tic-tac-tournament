@@ -144,6 +144,7 @@ from agents.sam_bots import sam_bot
 # Stephen
 # Tom
 # Zaiga
+from agents.weighted_moves import weighted_moves
 
 _run_agents(
     # Example agents
@@ -181,4 +182,5 @@ _run_agents(
     # Stephen
     # Tom
     # Zaiga
+    zaiga=weighted_moves,
 )
