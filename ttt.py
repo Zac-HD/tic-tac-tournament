@@ -120,6 +120,8 @@ from agents.example import random_move, win_next_move_else_random
 # Alison
 # Brenda
 # Charlotte
+from agents.charlotte import porder
+
 # Danny
 # Felicity
 # Glen
@@ -147,6 +149,7 @@ _run_agents(
     # Alison
     # Brenda
     # Charlotte
+    charlotte=porder,
     # Danny
     # Felicity
     # Glen
