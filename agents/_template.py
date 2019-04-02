@@ -8,6 +8,7 @@ We want to implement our strategy
 1. parse the board into a structure
 """
 
+
 def agent(board: str) -> str:
     """The agent function takes a board state, represented as a string,
     and must return a new board state with an additional move for X.
