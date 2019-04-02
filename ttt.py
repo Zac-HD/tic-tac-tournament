@@ -44,6 +44,16 @@ class Outcome(enum.Enum):
     invalid = enum.auto()  # Agent made invalid move
     default = enum.auto()  # Opponent made invalid move
 
+    @property
+    def inverse(self) -> "Outcome":
+        return {
+            Outcome.win: Outcome.loss,
+            Outcome.loss: Outcome.win,
+            Outcome.invalid: Outcome.default,
+            Outcome.default: Outcome.invalid,
+            Outcome.draw: Outcome.draw,
+        }[self]
+
 
 def matchup(blue: Agent, red: Agent) -> Outcome:
     """Run a match and return the Outcome for blue, the first-mover."""
@@ -71,13 +81,13 @@ def matchup(blue: Agent, red: Agent) -> Outcome:
 def _run_agents(**agents: Agent) -> None:
     """Run multiple agents, and print a leaderboard and list of shame."""
     # Run a tournament where every agent plays against every other agent.
-    results: Dict[str, Dict[Outcome, int]] = dict()
+    results = {name: {oc: 0 for oc in Outcome} for name in agents}
     for bname, blue in agents.items():
-        results[bname] = {oc: 0 for oc in Outcome}
         for rname, red in agents.items():
             for _ in range(100):
                 outcome = matchup(blue, red)
                 results[bname][outcome] += 1
+                results[rname][outcome.inverse] += 1
 
     # Print summary table.
     print()
