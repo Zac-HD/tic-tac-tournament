@@ -113,6 +113,9 @@ from agents.example import random_move, win_next_move_else_random
 # Hrishi
 # Kathy
 # Matthew
+from agents.mp_agent import agent_mp as majp
+from agents.mp_agent import agent_g1 as mpg1
+from agents.mp_agent import agent_c1 as mpc1
 # Meghan
 # Olivia
 # Peter
@@ -138,6 +141,9 @@ _run_agents(
     # Hrishi
     # Kathy
     # Matthew
+    matthew = majp,
+    matthew_g1 = mpg1,
+    matthew_c1 = mpc1,
     # Meghan
     # Olivia
     # Peter

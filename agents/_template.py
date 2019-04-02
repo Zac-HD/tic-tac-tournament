@@ -2,6 +2,11 @@
 A template for developing tic-tac-toe agents.
 """
 
+"""
+We want to implement our strategy
+
+1. parse the board into a structure
+"""
 
 def agent(board: str) -> str:
     """The agent function takes a board state, represented as a string,
