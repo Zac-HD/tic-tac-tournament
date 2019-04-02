@@ -42,18 +42,11 @@ class Outcome(enum.Enum):
     draw = enum.auto()
     loss = enum.auto()
 
-    # what is considered an invalid move?
-
-    invalid = enum.auto()  # Agent made invalid move
-    default = enum.auto()  # Opponent made invalid move
-
     @property
     def inverse(self) -> "Outcome":
         return {
             Outcome.win: Outcome.loss,
             Outcome.loss: Outcome.win,
-            Outcome.invalid: Outcome.default,
-            Outcome.default: Outcome.invalid,
             Outcome.draw: Outcome.draw,
         }[self]
 
@@ -72,7 +65,7 @@ def matchup(blue: Agent, red: Agent) -> Outcome:
             and set(board).issubset("XO.")
             and [(".", "X")] == [(a, b) for a, b in zip(board, out) if a != b]
         ):
-            return Outcome.invalid if agent is blue else Outcome.default
+            return Outcome.loss if agent is blue else Outcome.draw
         board = out
         # Return blue's status if agent just won
         for a, b, c in WINS:
@@ -94,7 +87,7 @@ def _run_agents(**agents: Agent) -> None:
                 try:
                     outcome = matchup(blue, red)
                 except Exception:
-                    outcome = Outcome.invalid
+                    outcome = Outcome.loss
                 results[bname][outcome] += 1
                 results[rname][outcome.inverse] += 1
 
@@ -103,17 +96,10 @@ def _run_agents(**agents: Agent) -> None:
     print("  loss  win   draw   name")
     print("  ----------------------")
     msg = "{:>5} {:>5} {:>5}   {}"
-    invalid = []
     for bname, v in sorted(
         results.items(), key=lambda r: (r[1][Outcome.loss], -r[1][Outcome.win])
     ):
-        if v[Outcome.invalid] > 0:
-            invalid.append(bname)
-            continue
         print(msg.format(v[Outcome.loss], v[Outcome.win], v[Outcome.draw], bname))
-    if invalid:
-        print()
-        print("Disqualified agents: " + ", ".join(invalid))
 
 
 from agents._template import agent as example_first
@@ -138,7 +124,6 @@ from agents.hrishi import Hrishi_move
 from agents.kathy_bot import kathy_bot, kathy_first, kathy_highest_value_square
 
 
-
 # Matthew
 from agents.mp_agent import agent_mp as majp
 from agents.mp_agent import agent_g1 as mpg1
@@ -158,8 +143,8 @@ from agents.sam_bots import sam_bot
 
 _run_agents(
     # Example agents
-    first_valid_move=kathy_first,
-    random_move=kathy_highest_value_square,
+    first_valid_move=example_first,
+    random_move=random_move,
     no_move=lambda board: board,  # doesn't make a move
     all_moves=lambda board: board.replace(".", "X"),  # makes too many moves
     # Zac
@@ -174,7 +159,9 @@ _run_agents(
     # Hrishi
     hrishi=Hrishi_move,
     # Kathy
-    kathy_example=kathy_bot
+    kathy_example=kathy_bot,
+    kathy_first_valid_move=kathy_first,
+    kathy_random_move=kathy_highest_value_square,
     # Matthew
     matthew=majp,
     matthew_g1=mpg1,
