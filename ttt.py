@@ -20,14 +20,14 @@ Agent = Callable[[str], str]
 #       3 4 5
 #       6 7 8
 WINS = (
-    (0, 1, 2),  # three rows
-    (3, 4, 5),
-    (6, 7, 8),
-    (0, 3, 6),  # three columns
-    (1, 4, 7),
-    (2, 5, 8),
-    (0, 4, 8),  # two diagonals
-    (2, 4, 6),
+    (0, 1, 2),  # top row
+    (3, 4, 5),  # middle row
+    (6, 7, 8),  # bottom row
+    (0, 3, 6),  # left column
+    (1, 4, 7),  # middle column
+    (2, 5, 8),  # right column
+    (0, 4, 8),  # top left to bottom right diagonal
+    (2, 4, 6),  # top right to bottom left diagonal
 )
 
 
@@ -41,6 +41,9 @@ class Outcome(enum.Enum):
     win = enum.auto()
     draw = enum.auto()
     loss = enum.auto()
+
+    # what is considered an invalid move?
+
     invalid = enum.auto()  # Agent made invalid move
     default = enum.auto()  # Opponent made invalid move
 
@@ -79,7 +82,7 @@ def matchup(blue: Agent, red: Agent) -> Outcome:
 
 
 def _run_agents(**agents: Agent) -> None:
-    """Run multiple agents, and print a leaderboard and list of shame."""
+    """Run multiple agents, and print a leaderboard."""
     # Run a tournament where every agent plays against every other agent.
     results = {name: {oc: 0 for oc in Outcome} for name in agents}
     for bname, blue in agents.items():
@@ -122,6 +125,10 @@ from agents.example import random_move, win_next_move_else_random
 # Glen
 # Hrishi
 # Kathy
+from agents.kathy_bot import kathy_bot, kathy_first, kathy_highest_value_square
+
+
+
 # Matthew
 # Meghan
 # Olivia
@@ -133,8 +140,8 @@ from agents.example import random_move, win_next_move_else_random
 
 _run_agents(
     # Example agents
-    first_valid_move=example_first,
-    random_move=random_move,
+    first_valid_move=kathy_first,
+    random_move=kathy_highest_value_square,
     no_move=lambda board: board,  # doesn't make a move
     all_moves=lambda board: board.replace(".", "X"),  # makes too many moves
     # Zac
@@ -147,6 +154,7 @@ _run_agents(
     # Glen
     # Hrishi
     # Kathy
+    kathy_example=kathy_bot
     # Matthew
     # Meghan
     # Olivia
