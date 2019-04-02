@@ -140,6 +140,8 @@ from agents.mp_agent import agent_c1 as mpc1
 from agents.cayla import cayla_strategy
 
 # Sam
+from agents.sam_bots import sam_bot
+
 # Stephen
 # Tom
 # Zaiga
@@ -171,6 +173,7 @@ _run_agents(
     # Peter
     cayla_via_peter=cayla_strategy,
     # Sam
+    sam_bot=sam_bot,
     # Stephen
     # Tom
     # Zaiga
