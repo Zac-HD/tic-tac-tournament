@@ -85,7 +85,10 @@ def _run_agents(**agents: Agent) -> None:
     for bname, blue in agents.items():
         for rname, red in agents.items():
             for _ in range(100):
-                outcome = matchup(blue, red)
+                try:
+                    outcome = matchup(blue, red)
+                except Exception:
+                    outcome = Outcome.invalid
                 results[bname][outcome] += 1
                 results[rname][outcome.inverse] += 1
 
