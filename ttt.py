@@ -133,6 +133,8 @@ from agents.mp_agent import agent_c1 as mpc1
 
 # Meghan
 # Olivia
+from agents.olivia import olivia
+
 # Peter
 from agents.cayla import cayla_strategy
 
@@ -171,6 +173,7 @@ _run_agents(
     matthew_c1=mpc1,
     # Meghan
     # Olivia
+    olivia=olivia,
     # Peter
     cayla_via_peter=cayla_strategy,
     # Sam
