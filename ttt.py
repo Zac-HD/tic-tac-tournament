@@ -133,6 +133,8 @@ from agents.hrishi import Hrishi_move
 # Meghan
 # Olivia
 # Peter
+from agents.cayla import cayla_strategy
+
 # Sam
 # Stephen
 # Tom
@@ -160,6 +162,7 @@ _run_agents(
     # Meghan
     # Olivia
     # Peter
+    cayla_via_peter=cayla_strategy,
     # Sam
     # Stephen
     # Tom
