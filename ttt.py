@@ -117,6 +117,8 @@ from agents.charlotte import porder
 # Danny
 # Felicity
 # Glen
+from agents.gb_tic_tac_v2 import gb_tacky_toes
+
 # Hrishi
 from agents.hrishi import Hrishi_move
 
@@ -156,6 +158,7 @@ _run_agents(
     # Danny
     # Felicity
     # Glen
+    glen_tacky_toes=gb_tacky_toes,
     # Hrishi
     hrishi=Hrishi_move,
     # Kathy
