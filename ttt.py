@@ -142,6 +142,8 @@ from agents.cayla import cayla_strategy
 from agents.sam_bots import sam_bot
 
 # Stephen
+from agents.dougbot import dougbot
+
 # Tom
 # Zaiga
 from agents.weighted_moves import weighted_moves
@@ -180,6 +182,7 @@ _run_agents(
     # Sam
     sam_bot=sam_bot,
     # Stephen
+    dougbot=dougbot,
     # Tom
     # Zaiga
     zaiga=weighted_moves,
