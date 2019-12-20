@@ -1,37 +1,24 @@
 # tic-tac-tournament
 
-This repository has all the code needed to run our old-fashioned AI
-tournament... a faceoff between game-playing programs.
+This repo contains everything you need to develop a GOFAI -
+[good, old-fashioned artificial intelligence](https://en.wikipedia.org/wiki/Symbolic_artificial_intelligence) -
+which plays the noble game of tic-tac-toe.
 
-There are two parts to this:
+### How to play
 
-- The core engine in `ttt.py`, which runs agents against each other.
-  This also acts as an automatic test suite - just enter your agent!
-- Three example agents which demonstrate how to make a valid move,
-  and some simple-if-suboptimal strategies.
+Open `edit_me.py` in your preferred Python editor, fill out the `get_move`,
+function, and see how you did by running `python edit_me.py`.
 
-Let the games begin!
+You may write helper functions, look up how tic-tac-toe is solved,
+implement [the XKCD approach](https://xkcd.com/832/), or whatever else.
 
+Entries are scored as follows:
 
-### Details
+- Smallest number of losses
+- If zero losses, you are scored by maximum number of wins.
 
-Agents are scored by the *lowest number of losses*, with ties broken by
-the highest number of wins.  This rewards good strategy over good luck.
+### Code style
 
-You can enter as many agents as you like, by writing the appropriate
-functions and adding them to the runner in `ttt.py`.  Copy
-`agents/_template.py` to get started, and check how you're doing by
-typing `python ttt.py` in a terminal to run a tournament.
-
-
-### Optional extension
-
-If your agent never loses (congratulations!), our optional extension
-this week is about code style.
-
-Try installing the [Black](https://black.readthedocs.io/) formatter
-(`pip install black`).  After commiting any changes with Git, run it
-by typing `black .` in a terminal.  What does this do?  Why might
-Python programmers like it?
-
-Other useful tools include `flake8` and `mypy` - ask Zac for details.
+After setting up with `pip install tox`, you can format your code and
+check for style issues just by typing `tox`.  You are encouraged to
+copy the `tox.ini` file and use it in your own projects!
