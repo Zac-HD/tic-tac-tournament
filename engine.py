@@ -1,6 +1,6 @@
 """Tic-tac-toe engine code and helpers."""
 
-from collections import Counter, deque
+from collections import Counter, defaultdict, deque
 from functools import lru_cache
 from typing import Callable, Deque, Dict, Optional, Tuple
 
@@ -68,7 +68,7 @@ def check_valid_moves(board: str, moves: Tuple[str, ...]) -> None:
         raise ValueError(f"Duplicate moves are not allowed, got {duplicates}")
 
 
-def engine(move_getter: MoveGetter) -> MoveCache:
+def engine(move_getter: MoveGetter, *, print_report=True) -> MoveCache:
     """Fully explore the behaviour of the move_getter function.
 
     This is where the magic happens.
@@ -85,8 +85,8 @@ def engine(move_getter: MoveGetter) -> MoveCache:
     wins = 0
     draws = 0
     losses = 0
+    loss_report = None
 
-    move_getter = lru_cache()(move_getter)
     while queue:
         board = queue.popleft()
         if board in gametree:
@@ -100,9 +100,13 @@ def engine(move_getter: MoveGetter) -> MoveCache:
 
         symbol = "OX"[board.count(".") % 2]
         for move in moves:
+            if move in gametree:
+                continue
             if winner(move) == symbol:
                 wins += 1
             elif winner(move) is not None:
+                if loss_report is None:
+                    loss_report = losing_sequence(gametree, move, board)
                 losses += 1
             elif "." not in move:
                 draws += 1
@@ -111,16 +115,40 @@ def engine(move_getter: MoveGetter) -> MoveCache:
                     if winner(reply) == symbol:
                         wins += 1
                     elif winner(reply) is not None:
+                        if loss_report is None:
+                            loss_report = losing_sequence(gametree, reply, move, board)
                         losses += 1
                     elif "." not in reply:
                         draws += 1
                     else:
                         queue.append(reply)
 
-    print(f"Good work - {move_getter.__name__} always makes valid moves!")
-    print(f"    wins: {wins}, draws: {draws}, losses: {losses}")
+    if print_report:
+        print(f"Good work - {move_getter.__name__} always makes valid moves!")
+        print(f"    losses: {losses}, draws: {draws}, wins: {wins}")
+        print()
+        if loss_report:
+            print("    first game where you lost:")
+            for line in loss_report:
+                print("        " + line)
+            print()
 
     return gametree
+
+
+def losing_sequence(gametree: MoveCache, *boards: str) -> Tuple[str, ...]:
+    """Describe the sequence of moves leading to `board`."""
+    inverse: Dict[str, list] = defaultdict(list)
+    for b, moves in gametree.items():
+        for m in moves:
+            inverse[m].append(b)
+    seq = list(boards)
+    while seq[-1] in inverse:
+        seq.append(inverse[seq[-1]][0])
+    return tuple(
+        "   ".join(m[s] for m in reversed(seq))
+        for s in [slice(0, 3), slice(3, 6), slice(6, 9)]
+    )
 
 
 def lose_only_to_forks(board: str) -> Tuple[str, ...]:
