@@ -73,6 +73,9 @@ def engine(move_getter: MoveGetter, *, print_report=True) -> MoveCache:
 
     This is where the magic happens.
     """
+    if print_report:
+        print()
+        print(f"Play-testing {move_getter.__name__} ...")
     # The queue tracks board positions that we haven't gotten the move(s) for yet.
     # We use a deque so that we can operate in order of increasing depth, which
     # results errors being encountered for the simplest possible boards.
@@ -124,7 +127,6 @@ def engine(move_getter: MoveGetter, *, print_report=True) -> MoveCache:
                         queue.append(reply)
 
     if print_report:
-        print()
         print(f"Good work - {move_getter.__name__} always makes valid moves!")
         print(f"    losses: {losses}, draws: {draws}, wins: {wins}")
         print()

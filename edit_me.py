@@ -29,5 +29,11 @@ def get_moves(board: str) -> Tuple[str, ...]:
 
 
 if __name__ == "__main__":
+    # As an example, run a function that will attempt all valid moves.
     engine(allmoves)
+
+    # Then run the `get_moves()` function that you wrote above!
     engine(get_moves)
+
+    # If you want to, you can add more calls to engine() with
+    # additional agents below...
